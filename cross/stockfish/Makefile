@@ -42,7 +42,7 @@ endif
 COMPILE_ARGS = build ARCH=$(BUILD_ARCH)
 ifeq (g++,$(CXX))
 # workaround for: CXX not fully qualified when building in cross folder
-COMPILE_ARGS += COMPCXX=$(TC_PATH)$(TC_PREFIX)$(CXX)
+COMPILE_ARGS += COMPCXX=$(call tc,g++)
 else
 COMPILE_ARGS += COMPCXX=$(CXX)
 endif

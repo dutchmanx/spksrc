@@ -34,10 +34,10 @@ ENV += CC_x86_64_unknown_linux_gnu=gcc
 ENV += CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER=gcc
 endif
 
-ENV += CC_$(shell echo $(RUST_TARGET) | tr - _)=$(TC_PATH)$(TC_TARGET)-gcc
-ENV += CXX_$(shell echo $(RUST_TARGET) | tr - _)=$(TC_PATH)$(TC_TARGET)-g++
-ENV += AR_$(shell echo $(RUST_TARGET) | tr - _)=$(TC_PATH)$(TC_TARGET)-ar
-ENV += RANLIB_$(shell echo $(RUST_TARGET) | tr - _)=$(TC_PATH)$(TC_TARGET)-ranlib
+ENV += CC_$(shell echo $(RUST_TARGET) | tr - _)=$(call tc,gcc)
+ENV += CXX_$(shell echo $(RUST_TARGET) | tr - _)=$(call tc,g++)
+ENV += AR_$(shell echo $(RUST_TARGET) | tr - _)=$(call tc,ar)
+ENV += RANLIB_$(shell echo $(RUST_TARGET) | tr - _)=$(call tc,ranlib)
 
 ENV += CFLAGS_$(shell echo $(RUST_TARGET) | tr - _)=-O3
 

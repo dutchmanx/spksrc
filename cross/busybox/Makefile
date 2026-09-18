@@ -15,7 +15,14 @@ LICENSE  = GPL
 CONFIGURE_TARGET = busybox_configure
 INSTALL_TARGET = busybox_install
 
-ENV += CROSS_COMPILE=$(TC_PATH)$(TC_PREFIX)
+# Kbuild derives every tool from CROSS_COMPILE, a single prefix -- an overlay compiler sits
+# in another directory and carries a version suffix, so no prefix can name it. Each tool is
+# named instead, on the make command line rather than in the environment: kbuild assigns
+# `CC = $(CROSS_COMPILE)gcc` in its own makefile, which an exported CC would not override.
+# Handed to the configure step as well, where kbuild probes the compiler for its flags.
+BUSYBOX_TOOLS  = CC=$(call tc,gcc) AS=$(call tc,as) AR=$(call tc,ar) LD=$(call tc,ld) NM=$(call tc,nm)
+BUSYBOX_TOOLS += STRIP=$(call tc,strip) OBJCOPY=$(call tc,objcopy) OBJDUMP=$(call tc,objdump)
+COMPILE_ARGS += $(BUSYBOX_TOOLS)
 
 include ../../mk/spksrc.cross-cc.mk
 
@@ -30,7 +37,7 @@ busybox_configure:
 	cat $(addprefix configs/, $(BUSYBOX_CONFIG)) | while IFS== read option value; do \
 	  sed -r -e "s/^(# )?$$option\s.*$$/$$option=$$value/" -i $(WORK_DIR)/$(PKG_DIR)/configs/spksrc_defconfig ; \
 	done
-	$(RUN) $(MAKE) spksrc_defconfig
+	$(RUN) $(MAKE) $(BUSYBOX_TOOLS) spksrc_defconfig
 
 .PHONY: busybox_install
 busybox_install:

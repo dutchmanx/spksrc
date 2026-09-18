@@ -177,7 +177,9 @@ ifeq ($(strip $(GCC_DEBUG_INFO)),1)
     endif
 
     # Check compression support and add to flags
-    GCC_SUPPORTS_GZ := $(shell echo | $(WORK_DIR)/../../../toolchain/syno-$(ARCH)-$(TCVERSION)/work/$(TC_TARGET)/bin/$(TC_PREFIX)gcc -gz -E - 2>/dev/null 1>&2 && echo yes)
+    # Asked of the compiler that will do the build: with a gcc overlay active that is the
+    # overlay's, not the toolchain's, and the two answer differently.
+    GCC_SUPPORTS_GZ := $(shell echo | $(call tc,gcc) -gz -E - 2>/dev/null 1>&2 && echo yes)
     ifeq ($(strip $(GCC_SUPPORTS_GZ)),yes)
       GCC_DEBUG_FLAGS += -gz
     endif

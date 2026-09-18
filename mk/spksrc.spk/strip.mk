@@ -20,8 +20,9 @@
 #
 ###############################################################################
 
-# Prefer target strip if present, otherwise fallback to host strip
-STRIP := $(or $(wildcard $(TC_PATH)/$(TC_PREFIX)strip),strip)
+# Prefer target strip if present, otherwise fallback to host strip. Through $(call tc,)
+# so an active binutils overlay provides it, like everywhere else.
+STRIP := $(or $(wildcard $(call tc,strip)),strip)
 
 STRIP_COOKIE = $(WORK_DIR)/.$(COOKIE_PREFIX)strip_done
 

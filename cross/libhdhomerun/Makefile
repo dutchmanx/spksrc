@@ -16,7 +16,12 @@ INSTALL_TARGET = libhdhomerun_install
 
 include ../../mk/spksrc.cross-cc.mk
 
-COMPILE_ARGS = CROSS_COMPILE=$(abspath $(CURDIR)/../../toolchain/syno-$(ARCH)-$(TCVERSION)/work/$(TC_TARGET)/bin/$(TC_PREFIX))
+# Upstream derives its tools from CROSS_COMPILE, a single prefix, which cannot name an
+# overlay compiler: that one sits in another directory and carries a version suffix. The
+# tools it reads by name are given by name, and win on the make command line; the prefix
+# stays behind them, from TC_PATH rather than rebuilt here, for whatever else it derives.
+COMPILE_ARGS = CROSS_COMPILE=$(TC_PATH)$(TC_PREFIX)
+COMPILE_ARGS += CC=$(call tc,gcc) AR=$(call tc,ar) STRIP=$(call tc,strip)
 
 .PHONY: libhdhomerun_install
 libhdhomerun_install:
