@@ -78,12 +78,12 @@ CONFIGURE_ARGS += --with-vendor-bug-url=https://github.com/SynoCommunity/spksrc/
 CONFIGURE_ARGS += --with-vendor-vm-bug-url=https://github.com/SynoCommunity/spksrc/issues
 
 # arguments not taken from environment
-CONFIGURE_ARGS += READELF=$(TC_PATH)/$(TC_PREFIX)readelf
-CONFIGURE_ARGS += AR=$(TC_PATH)/$(TC_PREFIX)ar
-CONFIGURE_ARGS += STRIP=$(TC_PATH)/$(TC_PREFIX)strip
-CONFIGURE_ARGS += NM=$(TC_PATH)/$(TC_PREFIX)nm
-CONFIGURE_ARGS += OBJCOPY=$(TC_PATH)/$(TC_PREFIX)objcopy
-CONFIGURE_ARGS += OBJDUMP=$(TC_PATH)/$(TC_PREFIX)objdump
+CONFIGURE_ARGS += READELF=$(call tc,readelf)
+CONFIGURE_ARGS += AR=$(call tc,ar)
+CONFIGURE_ARGS += STRIP=$(call tc,strip)
+CONFIGURE_ARGS += NM=$(call tc,nm)
+CONFIGURE_ARGS += OBJCOPY=$(call tc,objcopy)
+CONFIGURE_ARGS += OBJDUMP=$(call tc,objdump)
 
 # Build images twice, second time with newly built JDK
 COMPILE_ARGS += product-images
